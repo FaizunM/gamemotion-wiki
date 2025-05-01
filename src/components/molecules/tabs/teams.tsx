@@ -1,4 +1,6 @@
-export const CharacterTeams = () => {
+import { ICharacter } from "@/interfaces/global";
+
+export const CharacterTeams = ({ data }: { data: ICharacter }) => {
   return (
     <div className="w-full">
       <div className="flex flex-col mt-8">

@@ -1,4 +1,6 @@
-export const CharacterReview = () => {
+import { ICharacter } from "@/interfaces/global";
+
+export const CharacterReview = ({ data }: { data: ICharacter }) => {
   return (
     <>
       <div className="w-full">

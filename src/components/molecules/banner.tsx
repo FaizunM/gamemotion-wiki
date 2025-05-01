@@ -1,8 +1,9 @@
 "use client";
 
+import { ICharacter } from "@/interfaces/global";
 import { useEffect, useState } from "react";
 
-export const CharacterBanner = () => {
+export const CharacterBanner = ({ data }: { data: ICharacter }) => {
   const [Floating, setFloating] = useState<boolean>(false);
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export const CharacterBanner = () => {
               <div className="flex flex-col gap-2 grow">
                 <div className="flex gap-3">
                   <div className="font-bold text-4xl">
-                    Evelyn - Sons of calidons
+                    {data.name} - {data.profile.faction}
                   </div>
                   <div className="w-[1px] min-h-[3px] bg-[rgba(255,255,255,0.1)]"></div>
                   <div className="flex gap-1">
@@ -72,7 +73,7 @@ export const CharacterBanner = () => {
                 </div>
                 <div className="flex gap-2">
                   <div className="px-1 bg-[rgba(255,255,255,0.1)] rounded border border-[rgba(255,255,255,0.1)] font-semibold text-sm">
-                    Sons of calidons
+                    {data.profile.faction}
                   </div>
                   <div className="px-1 bg-[rgba(255,255,255,0.1)] rounded border border-[rgba(255,255,255,0.1)] font-semibold text-sm">
                     18 November 2024
@@ -84,7 +85,9 @@ export const CharacterBanner = () => {
                   <div className="font-medium text-gray-400 text-xs text-right">
                     RARITY
                   </div>
-                  <div className="font-bold text-xl text-right">S</div>
+                  <div className="font-bold text-xl text-right">
+                    {data.profile.rarity}
+                  </div>
                 </div>
                 <div className="flex flex-col gap-1">
                   <div className="font-medium text-gray-400 text-xs text-right">

@@ -1,4 +1,6 @@
-export const CharacterBuild = () => {
+import { ICharacter } from "@/interfaces/global";
+
+export const CharacterBuild = ({ data }: { data: ICharacter }) => {
   return (
     <>
       <div className="w-full">
@@ -9,17 +11,19 @@ export const CharacterBuild = () => {
               <div className="w-[200px] min-h-full h-12 flex items-center px-4 font-semibold text-sm">
                 Best W-Engine
               </div>
-              <div className="grow flex items-center bg-[rgba(255,255,255,0.05)]">
-                <div className="w-16 h-16 flex items-center justify-center p-2">
-                  <picture>
-                    <img
-                      src="https://www.prydwen.gg/static/7fd4c7065d83314fc045e6e1ef89212c/d1e3d/zzz_Heartstring_Nocturne.webp"
-                      alt=""
-                    />
-                  </picture>
-                </div>
-                <div className="px-2 font-semibold text-sm">
-                  Heartstring Nocturne
+              <div className="grow flex flex-col">
+                <div className="grow flex items-center bg-[rgba(255,255,255,0.05)]">
+                  <div className="w-16 h-16 flex items-center justify-center p-2">
+                    <picture>
+                      <img
+                        src="https://www.prydwen.gg/static/7fd4c7065d83314fc045e6e1ef89212c/d1e3d/zzz_Heartstring_Nocturne.webp"
+                        alt=""
+                      />
+                    </picture>
+                  </div>
+                  <div className="px-2 font-semibold text-sm">
+                    {data.recomendation.weapons[0].name}
+                  </div>
                 </div>
               </div>
             </div>
@@ -28,7 +32,7 @@ export const CharacterBuild = () => {
                 Best Drive Disc
               </div>
               <div className="grow flex flex-col bg-[rgba(255,255,255,0.05)]">
-                {Array.from({ length: 2 }).map((item, index) => {
+                {data.recomendation.equipment_set[0].sets.map((item, index) => {
                   return (
                     <div className="flex items-center" key={index}>
                       <div className="w-16 h-16 flex items-center justify-center p-3">
@@ -40,7 +44,7 @@ export const CharacterBuild = () => {
                         </picture>
                       </div>
                       <div className="px-2 font-semibold text-sm">
-                        Heartstring Nocturne
+                        {item.name}
                       </div>
                     </div>
                   );
@@ -52,13 +56,13 @@ export const CharacterBuild = () => {
                 Disc Main Stats
               </div>
               <div className="grow flex items-center bg-[rgba(255,255,255,0.05)]">
-                {["4", "5", "6"].map((item, index) => {
+                {data.build.target_set.map((item, index) => {
                   return (
                     <div
                       className="w-full h-12 flex items-center justify-center font-semibold text-sm"
                       key={index}
                     >
-                      {item}: Crit Rate
+                      {item.set_num}: {item.name}
                     </div>
                   );
                 })}
@@ -69,7 +73,7 @@ export const CharacterBuild = () => {
                 Disc Substats
               </div>
               <div className="grow flex items-center bg-[rgba(255,255,255,0.05)]">
-                {["CRIT Rate", "CRIT DMG", "ATK", "PEN"].map((item, index) => {
+                {data.build.target_substat.map((item, index) => {
                   return (
                     <div
                       className="w-full h-12 flex items-center justify-center font-semibold text-sm"
@@ -82,17 +86,12 @@ export const CharacterBuild = () => {
               </div>
             </div>
           </div>
-          <div className="my-8">
-            This Evelyn build is your typical DPS build that can be used on any
-            team. Prioritize getting 80% CRIT Rate to activate Evelyn's
-            Additional Ability. You can also use Inferno Metal to easily reach
-            the required CRIT Rate.
-          </div>
+          <div className="my-8">{data.build.description}</div>
         </div>
         <div className="flex flex-col mt-8">
           <h1 className="font-bold text-2xl">Weapons</h1>
           <div className="flex flex-col gap-2 mt-3">
-            {Array.from({ length: 5 }).map((item, index) => {
+            {data.recomendation.weapons.map((item, index) => {
               return (
                 <div
                   className="w-full flex bg-[rgba(255,255,255,0.1)]"
@@ -111,15 +110,21 @@ export const CharacterBuild = () => {
                   </div>
                   <div className="grow flex flex-col bg-[rgba(255,255,255,0.025)]">
                     <div className="w-full h-12 flex items-center px-4 bg-[rgba(255,255,255,0.05)] font-semibold text-sm">
-                      Heartstring Nocturne
+                      {item.name}
                     </div>
-                    <div className="w-full flex items-center p-4 h-auto">
-                      CRIT DMG increases by 50%. When the equipper enters
-                      combat, or activates a Chain Attack or Ultimate, they gain
-                      1 stack of Heartstring. Each stack of Heartstring allows
-                      the wearer's Chain Attack and Ultimate DMG to ignore 12.5%
-                      of the target's Fire RES. This effect can stack up to 2
-                      times and lasts 30s. Repeated triggers reset the duration.
+                    <div className="p-4">
+                      {item.effects.map((item, index) => {
+                        return (
+                          <div className="flex flex-col" key={index}>
+                            <div className="w-full flex items-center py-1 h-auto">
+                              {item.name}
+                            </div>
+                            <div className="w-full flex items-center py-1 h-auto">
+                              {item.effect}
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
@@ -141,10 +146,10 @@ export const CharacterBuild = () => {
         <div className="flex flex-col mt-8">
           <h1 className="font-bold text-2xl">Drive Disc</h1>
           <div className="flex flex-col gap-2 mt-3">
-            {Array.from({ length: 5 }).map((item, index) => {
+            {data.recomendation.equipment_set.map((set_equip, index) => {
               return (
                 <div className="flex flex-col" key={index}>
-                  {Array.from({ length: 2 }).map((item, index) => {
+                  {set_equip.sets.map((item, index) => {
                     return (
                       <div
                         className="w-full flex bg-[rgba(255,255,255,0.1)]"
@@ -163,7 +168,7 @@ export const CharacterBuild = () => {
                         </div>
                         <div className="grow flex flex-col bg-[rgba(255,255,255,0.025)]">
                           <div className="w-full h-12 flex items-center px-4 bg-[rgba(255,255,255,0.05)] font-semibold text-sm">
-                            Heartstring Nocturne
+                            {item.name} - {item.unit} Unit
                           </div>
                           <div className="w-full flex items-center p-4 h-auto">
                             CRIT DMG increases by 50%. When the equipper enters
